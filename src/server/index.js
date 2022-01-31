@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const path = require('path');
+const fetch = require('node-fetch');
 var bodyParser = require('body-parser');
 dotenv.config();
 const express = require('express');
@@ -16,8 +17,20 @@ app.get('/', (req, res) => {
   //res.sendFile(path.resolve('src/client/views/index.html'));
 });
 
-app.post('/api', (req, res) => {
+const API_ENDPOINT = 'https://api.meaningcloud.com/sentiment-2.1';
+
+app.post('/api', async (req, res) => {
   console.log('URL = ', req.body.url);
+  try {
+    const response = await fetch(
+      `${API_ENDPOINT}?key=${API_KEY}&lang=en&url=${req.body.url}`
+    );
+    const data = await response.json();
+    console.log(data);
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.listen(8081, () => {
