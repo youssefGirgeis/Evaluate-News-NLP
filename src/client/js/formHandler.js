@@ -13,8 +13,18 @@ function handleSubmit(event) {
     body: JSON.stringify({ url }),
   })
     .then((res) => res.json())
-    .then(function (res) {
-      document.getElementById('results').innerHTML = res.message;
+    .then((res) => {
+      console.log(res);
+      document.getElementById('results').innerHTML = `
+     
+          <h3>Article Analysis</h3>
+          <p>Polarity: ${res.score_tag}</p>
+          <p>Agreement: ${res.agreement}</p>
+          <p>Subjectivity: ${res.subjectivity}</p>
+          <p>Confidence: ${res.confidence}</p>
+          <p>Irony: ${res.irony}</p>
+    
+      `;
     });
 }
 
